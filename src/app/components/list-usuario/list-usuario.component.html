@@ -1,0 +1,40 @@
+<div class="content">
+    <!--<form class="form-row">
+        <div class="col-5">
+            <input type="text"
+                    class="form-control"
+                    placeholder="Busca por el componente"
+                    [formControl]="busquedaCtrl">
+        </div>
+        <div class="col-3">
+            <input type="date" class="form-control" placeholder="Desde">
+        </div>
+        <div class="col-3">
+            <input type="date" class="form-control" placeholder="Hasta">
+        </div>
+        <div class="col-1">
+            <button class="btn btn-success" (click)="buscar()">Buscar</button>
+        </div>
+    </form>-->
+    <div class="top-20">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Usuario</th>
+                <th scope="col">Nombre y apellido</th>
+                <th scope="col">Celular</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let usuario of list">
+                <th>{{usuario.id_usuario}}</th>
+                <th>{{usuario.nombre}} {{usuario.apellido}}</th>
+                <th>{{usuario.celular}}</th>
+                <td><button class="btn btn-info" (click)="ver(usuario)">Ver</button></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+<loading #loading></loading>

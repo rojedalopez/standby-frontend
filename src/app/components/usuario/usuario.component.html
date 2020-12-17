@@ -1,0 +1,145 @@
+<div class="content">
+    <div class="alert alert-info" role="alert" *ngIf="bienvenido || actualiza">
+        <span>Hola <b>{{usuario.nombre}}</b>, no tenemos algunos de tus datos, por favor ingresalos para poder continuar.</span><br/>
+        <span *ngIf="bienvenido">Te recomendamos que ingreses una nueva contraseña, ya que parece que es tu primera vez en la plataforma.</span>
+    </div>
+
+    <div class="alert alert-success" role="alert" *ngIf="completado">
+        <span>Listo <b>{{usuario.nombre}}</b>, tus datos cambios fueron almacenados.</span>
+    </div>
+
+    <div class="alert alert-success" role="alert" *ngIf="creado">
+        <span>Listo el usuario fue almacenado.</span>
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf="error.length > 0">
+        <span>{{error}}.</span>
+    </div>
+
+    <div class="form-group">
+        <form [formGroup]="form">
+            <div class="fileset">
+                <label class="label">Datos del sistema</label>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="id_usuario">Id Usuario</label><span class="error"> *</span>
+                        <input type="text" [ngClass]="{'form-control-plaintext': editar, 'form-control': !editar, 'form-control-sm': !editar}" id="nombre" [(ngModel)]="usuario.id_usuario" formControlName="id_usuario" [readonly]="editar" (change)="validar()"/>
+                        <label-error [control]="form.controls.id_usuario" [name]="'id usuario'" [length]="{min:3, max:50}"></label-error>
+                    </div>
+                    <div class="form-group col">
+                        <label for="fk_subdominio">Subdominio</label><span class="error"> *</span>
+                        <select [ngClass]="{'form-control-plaintext': info_user.nivel == 1, 'form-control': info_user.nivel != 1, 'form-control-sm': info_user.nivel != 1}" id="fk_subdominio" [(ngModel)]="usuario.fk_subdominio" formControlName="fk_subdominio"
+                        [compareWith]="compareByOptionId" [attr.disabled]="(info_user.nivel == 1) ? '': null">
+                            <option [ngValue]="null">Ninguno</option>
+                            <option *ngFor="let opt of fk_subdominio" [ngValue]="opt">{{opt.clave}}</option>
+                        </select>
+                        <label-error [control]="form.controls.fk_subdominio" [name]="'subdominio'"></label-error>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="nivel">Nivel</label><span class="error"> *</span>
+                        <select [ngClass]="{'form-control-plaintext': (info_user.nivel == 1), 'form-control': (info_user.nivel != 1), 'form-control-sm': (info_user.nivel != 1)}" id="nivel" [(ngModel)]="info_user.nivel" formControlName="nivel"
+                        [compareWith]="compareByOptionId2" [attr.disabled]="(info_user.nivel == 1) ? '': null">
+                            <option [ngValue]="null" disabled>Ninguno</option>
+                            <option *ngFor="let opt of niveles" [ngValue]="opt.codigo">{{opt.etiqueta}}</option>
+                        </select>
+                        <label-error [control]="form.controls.nivel" [name]="'nivel'"></label-error>
+                    </div>
+                    <div class="form-group col">
+                        <div class="form-check">
+                            <input type="checkbox" [attr.disabled]="(info_user.nivel == 1) ? '': null" class="form-check-input" id="activo" [(ngModel)]="usuario.activo" formControlName="activo"/>
+                            <label for="activo" class="form-check-label">Activo</label>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="fileset" *ngIf="bienvenido">
+                <label class="label">Datos de autenticación</label>
+            
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="contrasena">Contraseña</label>
+                        <input type="password" class="form-control form-control-sm" id="password" [(ngModel)]="usuario.password" formControlName="password"/>
+                        <label-error [control]="form.controls.password" [name]="'contraseña'"></label-error>
+                    </div>
+
+                    <div class="form-group col">
+                        <label for="v_password">Repite la contraseña</label>
+                        <input type="password" class="form-control form-control-sm" id="v_password" [(ngModel)]="usuario.v_password" formControlName="v_password"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fileset">
+                <label class="label">Datos basicos</label>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="nombre">Nombre</label><span class="error"> *</span>
+                        <input type="text" class="form-control form-control-sm" id="nombre" [(ngModel)]="usuario.nombre" formControlName="nombre"/>
+                        <label-error [control]="form.controls.nombre" [name]="'nombre'" [length]="{min:3, max:200}"></label-error>
+                    </div>
+    
+                    <div class="form-group col">
+                        <label for="apellido">Apellido</label><span class="error"> *</span>
+                        <input type="text" class="form-control form-control-sm" id="apellido" [(ngModel)]="usuario.apellido" formControlName="apellido"/>
+                        <label-error [control]="form.controls.apellido" [name]="'apellido'" [length]="{min:3, max:200}"></label-error>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label for="fecha_nacimiento">Fecha Nacimiento</label>
+                    <input type="date" class="form-control form-control-sm" id="fecha_nacimiento" [(ngModel)]="usuario.fecha_nacimiento" formControlName="fecha_nacimiento"/>
+                </div>
+    
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="direccion">Direccion residencia</label>
+                        <input type="text" class="form-control form-control-sm" id="nombre" [(ngModel)]="usuario.direccion" formControlName="direccion"/>
+                        <label-error [control]="form.controls.direccion" [name]="'direccion'" [length]="{min:3, max:200}"></label-error>
+                    </div>
+    
+                    <div class="form-group col">
+                        <label for="celular">Celular</label>
+                        <input type="tel" class="form-control form-control-sm" id="celular" [(ngModel)]="usuario.celular" formControlName="celular"/>
+                        <label-error [control]="form.controls.celular" [name]="'celular'"></label-error>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="fileset">
+                <label class="label">Datos de emergencia</label>
+
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="contacto">Nombre contacto</label>
+                        <input type="text" class="form-control form-control-sm" id="contacto" [(ngModel)]="usuario.contacto" formControlName="contacto"/>
+                        <label-error [control]="form.controls.contacto" [name]="'contacto'"></label-error>
+                    </div>
+
+                    <div class="form-group col">
+                        <label for="celularcon">Celular contacto</label>
+                        <input type="tel" class="form-control form-control-sm" id="celularcon" [(ngModel)]="usuario.celularcon" formControlName="celularcon"/>
+                        <label-error [control]="form.controls.celularcon" [name]="'celular contacto'"></label-error>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-success" (click)="guardar()" [disabled]="!form.valid" *ngIf="!actualiza && !bienvenido">
+                    Guardar
+                </button>
+                <button class="btn btn-success" (click)="actualizar()" [disabled]="!form.valid" *ngIf="bienvenido || actualiza">
+                    Actualiza
+                </button>
+                <button class="btn btn-secondary" (click)="limpiar()" *ngIf="!editar">
+                    Limpiar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<loading #loading></loading>

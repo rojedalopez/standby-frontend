@@ -1,0 +1,39 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'assets/variables'
+
+.login
+    width: 300px
+    margin: 250px auto
+    @include breakpoint(xs) 
+        margin: 50px auto
+    @include breakpoint(sm) 
+        margin: 100px auto
+    @include breakpoint(md) 
+        margin: 150px auto
+
+.padding-20
+    padding: 10px 20px
+
+.top-10
+    margin-top: 10px
+
+.content
+    margin-top: 25px
+
+.fileset
+    border: 1px solid #CED4D9
+    padding: 20px 20px
+    border-radius: 20px
+    margin-top: 30px
+    margin-bottom: 25px
+
+.fileset > .label
+    padding: 5px 10px
+    background-color: white
+    margin-top: -35px
+    position: absolute
+    font-size: 1.2em
+    font-weight: 600
+
+.error
+    color: red

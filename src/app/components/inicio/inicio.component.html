@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="evento" routerLinkActive="active">Evento</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Administrar
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink="usuario" routerLinkActive="active" fragment="crear">Crear usuario</a>
+          <a class="dropdown-item" routerLink="lista-usuario" routerLinkActive="active">Ver usuarios</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="componente" routerLinkActive="active" fragment="crear">Crear componente</a>
+          <a class="dropdown-item" routerLink="lista-componente" routerLinkActive="active">Ver componentes</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Ver ciclos</a>
+        </div>
+      </li>
+      
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Opciones
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="nav-link" [routerLink]="['/usuario', authUser.usuario]" routerLinkActive="active" >Perfil</a>
+          <a class="nav-link" (click)="salir()" >Salir</a>
+        </div>
+      </li>
+    </ul>
+   
+  </div>
+</nav>
+<router-outlet></router-outlet>

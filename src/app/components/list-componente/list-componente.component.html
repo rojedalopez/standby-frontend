@@ -1,0 +1,71 @@
+<div class="content">
+    <!--<form class="form-row">
+        <div class="col-5">
+            <input type="text"
+                    class="form-control"
+                    placeholder="Busca por el componente"
+                    [formControl]="busquedaCtrl">
+        </div>
+        <div class="col-3">
+            <input type="date" class="form-control" placeholder="Desde">
+        </div>
+        <div class="col-3">
+            <input type="date" class="form-control" placeholder="Hasta">
+        </div>
+        <div class="col-1">
+            <button class="btn btn-success" (click)="buscar()">Buscar</button>
+        </div>
+    </form>-->
+    <div class="top-20">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Ambientes</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let _componente of list">
+                <td>{{_componente.nombre}}</td>
+                <td>{{_componente.fk_tipocomponente.clave}}</td>
+                <td><a href="#" (click)="seleccionar(_componente)" data-toggle="modal" data-target="#exampleModal">{{_componente.ambientes.length}}</a></td>
+                <td><button class="btn btn-info" (click)="ver(_componente)">Ver</button></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ambientes</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-bordered" *ngIf="componente != null && componente != undefined">
+                <thead>
+                  <tr>
+                    <td scope="col">Nombre Ambiente</td>
+                    <td scope="col">Ubicación</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let _ambiente of componente.ambientes">
+                    <td>{{_ambiente.nombre}}</td>
+                    <td>{{_ambiente.ubicacion}}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+<loading #loading></loading>

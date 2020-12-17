@@ -1,0 +1,51 @@
+<div class="content">
+    <form class="form-row">
+        <div class="col-5">
+            <input type="text"
+                    class="form-control"
+                    placeholder="Busca por el componente"
+                    [formControl]="componenteCtrl"
+                    [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngIf="isLoading" class="is-loading">Buscando...</mat-option>
+                <mat-option *ngFor="let componente of componentes" [value]="componente.nombre" (click)="seleccionar(componente)">
+                    <span><b>{{componente.nombre}}</b> ({{componente.fk_tipocomponente.clave}})</span>
+                </mat-option>
+            </mat-autocomplete>
+        </div>
+        <div class="col-3">
+            <input type="date" class="form-control" placeholder="Desde">
+        </div>
+        <div class="col-3">
+            <input type="date" class="form-control" placeholder="Hasta">
+        </div>
+        <div class="col-1">
+            <button class="btn btn-success" (click)="buscar()">Buscar</button>
+        </div>
+    </form>
+    <div class="top-20">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Usuario</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Error</th>
+                <th scope="col">Tipo solución</th>
+                <th scope="col">Solución</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let evento of list">
+                <th>{{evento.usuario}}</th>
+                <th>{{evento.hora | date: 'medium'}}</th>
+                <td>{{evento.error}}</td>
+                <td>{{evento.tiposolucion}}</td>
+                <td>{{evento.solucion}}</td>
+                <td><button class="btn btn-info" (click)="ver(evento)">Ver</button></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+<loading #loading></loading>

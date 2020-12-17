@@ -1,0 +1,9 @@
+<small *ngIf="!control.valid && (control.dirty || control.touched)"
+    class="form-text text-muted error">
+    <div *ngIf="control.errors.required">
+        El campo {{name}} es requerido.
+    </div>
+    <div *ngIf="control.errors.minlength">
+        El campo {{name}} debe tener {{length.min != null ? 'más de ' + length.min : ''}} {{length.max != null ? 'y menos de ' + length.max : ''}} caracteres.
+    </div>
+</small>

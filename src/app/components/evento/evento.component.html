@@ -1,0 +1,171 @@
+<div class="content">
+  <div class="alert alert-success" role="alert" *ngIf="creado">
+      <span>Listo, el evento fue almacenado.</span>
+  </div>
+
+  <div class="alert alert-danger" role="alert" *ngIf="error.length > 0">
+      <span>{{error}}.</span>
+  </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group"> 
+                <form [formGroup]="form">
+                    <div class="form-group">
+                        <label for="error">Error</label>
+                        <textarea class="form-control form-control-sm" id="error" [(ngModel)]="evento.error" formControlName="error"></textarea>
+                        <label-error [control]="form.controls.error" [name]="'error'" [length]="{min:20, max:1500}"></label-error>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="error">Componentes</label>
+                      <input type="text"
+                              class="form-control"
+                              placeholder="Busca por el nombre"
+                              [formControl]="componenteCtrl"
+                              [matAutocomplete]="auto" *ngIf="agregar_componente">
+                      <mat-autocomplete #auto="matAutocomplete">
+                          <mat-option *ngIf="isLoading" class="is-loading">Buscando...</mat-option>
+                          <mat-option *ngFor="let componente of componentes" [value]="componente.nombre" (click)="seleccionarComponente(componente)">
+                              <span><b>{{componente.nombre}}</b> ({{componente.fk_tipocomponente.clave}})</span>
+                          </mat-option>
+                      </mat-autocomplete>
+                      <div class="container m-2">
+                        <span *ngFor="let comp of evento.componentes" class="dashfolio-tag">{{comp.nombre}}</span>
+                      </div>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="incidente">Incidente</label>
+                        <input type="text" class="form-control form-control-sm" id="incidente" [(ngModel)]="evento.incidente" formControlName="incidente"/>
+                        <label-error [control]="form.controls.incidente" [name]="'incidente'" [length]="{min:7, max:50}"></label-error>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="diagnostico">Diagnostico</label>
+                        <textarea class="form-control form-control-sm" id="diagnostico" [(ngModel)]="evento.diagnostico" formControlName="diagnostico"></textarea>
+                        <label-error [control]="form.controls.diagnostico" [name]="'diagnostico'" [length]="{min:20, max:1500}"></label-error>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="solucion">Solucion</label>
+                        <textarea class="form-control form-control-sm" id="solucion" [(ngModel)]="evento.solucion" formControlName="solucion"></textarea>
+                        <label-error [control]="form.controls.solucion" [name]="'solucion'" [length]="{min:20, max:1500}"></label-error>
+                    </div>
+            
+                    <div class="form-group">
+                        <label>Tipo de solución</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" [(ngModel)]="evento.tiposolucion" formControlName="tiposolucion" id="temporal" value="Temporal" selected>
+                            <label class="form-check-label" for="Temporal">
+                              Temporal
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" [(ngModel)]="evento.tiposolucion" formControlName="tiposolucion" id="definitiva" value="Definitiva">
+                            <label class="form-check-label" for="definitiva">
+                              Definitiva
+                            </label>
+                          </div>
+                          <label-error [control]="form.controls.tiposolucion" [name]="'tipo solucion'"></label-error>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="nota">Nota</label>
+                        <textarea class="form-control form-control-sm" id="nota" [(ngModel)]="evento.nota" formControlName="nota"></textarea>
+                        <label-error [control]="form.controls.nota" [name]="'nota'" [length]="{min:20, max:1000}"></label-error>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="hora">Hora</label>
+                        <input type="datetime-local" class="form-control form-control-sm" id="hora" [(ngModel)]="evento.hora" formControlName="hora"/>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="fk_subdominio">Subdominio</label>
+                        <select class="form-control form-control-sm" id="fk_subdominio" [(ngModel)]="evento.fk_subdominio" formControlName="fk_subdominio"
+                        [compareWith]="compareByOptionId">
+                            <option [ngValue]="null" disabled>Seleccione</option>
+                            <option *ngFor="let opt of subdominios" [ngValue]="opt">{{opt.clave}}</option>
+                        </select>
+                        <label-error [control]="form.controls.fk_subdominio" [name]="'subdominio'"></label-error>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="id">Usuario</label>
+                        <input type="text" class="form-control form-control-sm" id="usuario" [(ngModel)]="evento.usuario" formControlName="usuario"/>
+                    </div>
+            
+                    <div class="form-group">
+                        <button class="btn btn-success" (click)="guardar()" [disabled]="!form.valid">
+                            Guardar
+                        </button>
+                        <button class="btn btn-secondary" (click)="limpiar()">
+                            Limpiar
+                        </button>
+                    </div>
+                </form>
+            </div>         
+        </div>
+        <div class="col-md-4">
+            <div id="accordion">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">         
+                            Crear nuevo componente
+                      </button>
+                    </h5>
+                  </div>
+              
+                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <app-componente #crearComponente [min]="true" (creado)="obtenerComponentes()"></app-componente>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Subir archivos
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+
+                      <div class="form-group">
+                        <label for="files">Adjuntar archivos</label>
+                        <input type="file" class="form-control-file" name="files" multiple (change)="selectFiles($event)" />
+                      </div>
+
+                      
+                      <button
+                        class="btn btn-success"
+                        (click)="uploadFiles()"
+                      >
+                        Upload
+                      </button>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Collapsible Group Item #3
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
