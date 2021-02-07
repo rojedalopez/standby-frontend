@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
@@ -12,7 +12,8 @@
           Administrar
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" routerLink="usuario" routerLinkActive="active" fragment="crear">Crear usuario</a>
+          <a class="dropdown-item" routerLink="usuario" routerLinkActive="active" fragment="crear">Crear un usuario</a>
+          <a class="dropdown-item" routerLink="usuario" routerLinkActive="active" fragment="crearvarios">Crear varios usuarios</a>
           <a class="dropdown-item" routerLink="lista-usuario" routerLinkActive="active">Ver usuarios</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" routerLink="componente" routerLinkActive="active" fragment="crear">Crear componente</a>
@@ -34,5 +35,108 @@
     </ul>
    
   </div>
-</nav>
-<router-outlet></router-outlet>
+</nav>-->
+<!--<div class="d-flex" id="wrapper">
+
+  <div class="bg-light border-right" id="sidebar-wrapper">
+    <div class="sidebar-heading">Therichpost </div>
+    <div class="list-group list-group-flush">
+      <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+      <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
+      <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
+      <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+      <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+      <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+    </div>
+  </div>
+
+  <div id="page-content-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <button class="btn btn-secundary" id="menu-toggle">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  
+</div>-->
+
+<div class="wrapper">
+  <!-- Sidebar -->
+  <nav id="sidebar">
+      <div class="sidebar-header">
+          <h3>Standby App</h3>
+      </div>
+
+      <ul class="list-unstyled components">
+          <li  class="active">
+              <a href="#">Inicio</a>
+          </li>
+          <li>
+            <a routerLink="evento" routerLinkActive="active">Crear Evento</a>
+          </li>
+          <li>
+              <a href="#adminSub1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Administrar</a>
+              <ul class="collapse list-unstyled" id="adminSub1">
+                  <li>
+                    <a href="#UsrSub2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Usuarios</a>
+                    <ul class="collapse list-unstyled" id="UsrSub2">
+                        <li>
+                            <a routerLink="usuario" routerLinkActive="active" fragment="crear">Crear</a>
+                        </li>
+                        <li>
+                            <a routerLink="lista-usuario" routerLinkActive="active">Listar</a>
+                        </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#CompSub2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Componentes</a>
+                    <ul class="collapse list-unstyled" id="CompSub2">
+                        <li>
+                            <a routerLink="componente" routerLinkActive="active" fragment="crear">Crear</a>
+                        </li>
+                        <li>
+                            <a routerLink="lista-componente" routerLinkActive="active">Listar</a>
+                        </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="#TempSub2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Templates</a>
+                    <ul class="collapse list-unstyled" id="TempSub2">
+                        <li>
+                            <a href="#" (click)="descargarTemplates('plantilla_usuarios.xltx')">Crear Usuarios</a>
+                        </li>
+                        <li>
+                            <a rhref="#">Crear Eventos</a>
+                        </li>
+                    </ul>
+                  </li>
+              </ul>
+          </li>
+          <li>
+              <a [routerLink]="['/usuario', authUser.usuario]" routerLinkActive="active">Mi perfil</a>
+          </li>
+          <li>
+              <a rhref="#" (click)="salir()">Salir</a>
+          </li>
+      </ul>
+  </nav>
+
+  <div id="content">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-secundary" id="sidebarCollapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+          
+  </div>
+
+    
+
+</div>

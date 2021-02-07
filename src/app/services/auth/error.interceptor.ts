@@ -9,7 +9,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     constructor(private router: Router) { }  
   
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {  
-          
+          console.log("entro a interceptor")
         return next.handle(request).pipe(retryWhen(this.getRetryInvoque()))  
     }  
 

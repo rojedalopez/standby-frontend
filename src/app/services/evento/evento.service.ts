@@ -32,12 +32,12 @@ export class EventoService {
     return this.http.put(endpoint_evento, evento).pipe();
   }
 
-  upload(file:any[]): Observable<any>{
+  upload(file:any[], id): Observable<any>{
     let formdata: FormData = new FormData();
     for(var i = 0; i< file.length; i++){
       formdata.append('files[]', file[i], file[i].name);
     }
-    return this.http.post(`${endpoint_evento}/upload/v2`, formdata).pipe();
+    return this.http.post(`${endpoint_evento}/upload/${id}`, formdata).pipe();
   }
 
   delete(evento:Evento){

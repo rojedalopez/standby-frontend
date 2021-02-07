@@ -31,6 +31,7 @@ export class EventoComponent implements OnInit {
   id_evento;
   creado:boolean = false;
   error:string="";
+  archivos:string="";
   agregar_componente:boolean = true;
 
   constructor(private eventoService: EventoService, private formBuilder: FormBuilder, 
@@ -106,18 +107,21 @@ console.log(this.route.snapshot);
   }
   
   guardar(){
-    if(this.form.valid){
+    if(this.form.valid && this.evento.componentes.length > 0){
       if(this.evento.id_evento != null){
         this.eventoService.update(this.evento).subscribe((r) => {
           console.log(r);
           this.evento.id_evento = r.evento.id_evento;
           this.creado = true;
+          this.uploadFiles(this.evento.id_evento);
         }, error => {
           console.log(error);
           this.error = error;
         });
       }else{
-        this.eventoService.create(this.evento).subscribe(() => {
+        this.eventoService.create(this.evento).subscribe((r) => {
+          console.log(r.evento.id_evento);
+          this.uploadFiles(r.evento.id_evento);
           this.limpiar();
           this.creado = true;
         }, error => {
@@ -125,6 +129,8 @@ console.log(this.route.snapshot);
           this.error = error;
         });
       }
+    }else if(this.evento.componentes.length == 0){
+      this.error = "Debe seleccionarse por lo menos un componente afectado.";
     }
   }
 
@@ -132,9 +138,11 @@ console.log(this.route.snapshot);
     this.selectedFiles = event.target.files;
   }
 
-  uploadFiles(){
-    this.eventoService.upload(this.selectedFiles).subscribe((r) =>{
+  uploadFiles(id){
+    this.eventoService.upload(this.selectedFiles, id).subscribe((r) =>{
       console.log(r);
+      this.selectedFiles = [];
+      this.archivos = "Cargados: " + r;
     });
   }
 

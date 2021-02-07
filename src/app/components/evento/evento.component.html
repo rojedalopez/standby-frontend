@@ -1,6 +1,7 @@
 <div class="content">
   <div class="alert alert-success" role="alert" *ngIf="creado">
-      <span>Listo, el evento fue almacenado.</span>
+      <span>Listo, el evento fue almacenado.</span><br/>
+      <span>{{archivos}}.</span>
   </div>
 
   <div class="alert alert-danger" role="alert" *ngIf="error.length > 0">
@@ -13,7 +14,7 @@
                 <form [formGroup]="form">
                     <div class="form-group">
                         <label for="error">Error</label>
-                        <textarea class="form-control form-control-sm" id="error" [(ngModel)]="evento.error" formControlName="error"></textarea>
+                        <textarea class="form-control form-control-sm titulo" id="error" [(ngModel)]="evento.error" formControlName="error"></textarea>
                         <label-error [control]="form.controls.error" [name]="'error'" [length]="{min:20, max:1500}"></label-error>
                     </div>
 
@@ -43,14 +44,8 @@
             
                     <div class="form-group">
                         <label for="diagnostico">Diagnostico</label>
-                        <textarea class="form-control form-control-sm" id="diagnostico" [(ngModel)]="evento.diagnostico" formControlName="diagnostico"></textarea>
+                        <textarea class="form-control form-control-sm diagnostico" id="diagnostico" [(ngModel)]="evento.diagnostico" formControlName="diagnostico"></textarea>
                         <label-error [control]="form.controls.diagnostico" [name]="'diagnostico'" [length]="{min:20, max:1500}"></label-error>
-                    </div>
-            
-                    <div class="form-group">
-                        <label for="solucion">Solucion</label>
-                        <textarea class="form-control form-control-sm" id="solucion" [(ngModel)]="evento.solucion" formControlName="solucion"></textarea>
-                        <label-error [control]="form.controls.solucion" [name]="'solucion'" [length]="{min:20, max:1500}"></label-error>
                     </div>
             
                     <div class="form-group">
@@ -68,6 +63,12 @@
                             </label>
                           </div>
                           <label-error [control]="form.controls.tiposolucion" [name]="'tipo solucion'"></label-error>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="solucion">Solucion</label>
+                        <textarea class="form-control form-control-sm solucion" id="solucion" [(ngModel)]="evento.solucion" formControlName="solucion"></textarea>
+                        <label-error [control]="form.controls.solucion" [name]="'solucion'" [length]="{min:20, max:1500}"></label-error>
                     </div>
             
                     <div class="form-group">
@@ -95,6 +96,11 @@
                         <label for="id">Usuario</label>
                         <input type="text" class="form-control form-control-sm" id="usuario" [(ngModel)]="evento.usuario" formControlName="usuario"/>
                     </div>
+
+                    <div class="form-group">
+                      <label for="files">Adjuntar archivos</label>
+                      <input type="file" class="form-control-file" name="files" multiple (change)="selectFiles($event)" />
+                    </div>
             
                     <div class="form-group">
                         <button class="btn btn-success" (click)="guardar()" [disabled]="!form.valid">
@@ -121,47 +127,6 @@
                   <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
                         <app-componente #crearComponente [min]="true" (creado)="obtenerComponentes()"></app-componente>
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header" id="headingTwo">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Subir archivos
-                      </button>
-                    </h5>
-                  </div>
-                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                    <div class="card-body">
-
-                      <div class="form-group">
-                        <label for="files">Adjuntar archivos</label>
-                        <input type="file" class="form-control-file" name="files" multiple (change)="selectFiles($event)" />
-                      </div>
-
-                      
-                      <button
-                        class="btn btn-success"
-                        (click)="uploadFiles()"
-                      >
-                        Upload
-                      </button>
-
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header" id="headingThree">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Collapsible Group Item #3
-                      </button>
-                    </h5>
-                  </div>
-                  <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                    <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                     </div>
                   </div>
                 </div>

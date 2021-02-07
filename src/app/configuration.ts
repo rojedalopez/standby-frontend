@@ -13,3 +13,4 @@ export const endpoint_grupoclave = `${domain}grupoclave`
 export const endpoint_componente = `${domain}componente`
 export const endpoint_usuario = `${domain}usuario`
 export const endpoint_login = `${domain}login`
+export const endpoint_archivos = `${domain}archivos`

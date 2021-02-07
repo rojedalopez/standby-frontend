@@ -24,6 +24,12 @@ export class UsuarioService {
     return this.http.post(endpoint_usuario, usuario).pipe();
   }
 
+  multiples(file:File, fk_subdominio:number): Observable<any>{
+    let formdata: FormData = new FormData();
+    formdata.append('file', file, file.name);
+    return this.http.post(`${endpoint_usuario}/multiples/${fk_subdominio}`, formdata).pipe();
+  }
+
   update(usuario:Usuario){
     return this.http.put(endpoint_usuario, usuario).pipe();
   }

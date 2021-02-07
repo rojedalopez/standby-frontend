@@ -29,15 +29,20 @@ export class UsuarioComponent implements OnInit {
   ];
   fk_subdominio: ClaveValor[];
   usuario:Usuario = new Usuario();
+  list: Usuario[];
   form: FormGroup;
   id_usuario:string;
   editar:boolean = false;
   actualiza:boolean = false;
   bienvenido:boolean = false;
   completado:boolean = false;
+  onlyview:boolean = false;
   creado: boolean = false;
   error:string = "";
   info_user: any;
+  just_one: boolean = true;
+  selectedFile: File;
+  activeBtnFile:boolean = false;
 
   ngOnInit(): void {
     this.fk_subdominio = this.masterCache.getListSubdominios();
@@ -45,6 +50,7 @@ export class UsuarioComponent implements OnInit {
     this.id_usuario = this.route.snapshot.paramMap.get("id_usuario");
     this.info_user = this.authService.isAutenticate();
     if(this.id_usuario != null){
+      this.onlyview = true;
       if(this.info_user.nivel == 1)
         this.cargarUsuario(this.info_user.usuario);
       else
@@ -56,6 +62,8 @@ export class UsuarioComponent implements OnInit {
         this.actualiza = false;
         this.bienvenido = false;
         this.id_usuario = null;
+      }else if(this.route.snapshot.fragment === 'crearvarios' && this.info_user.nivel != 1){
+        this.just_one = false;
       }else{
         this.router.navigate(['/inicio']);
       }
@@ -182,10 +190,30 @@ export class UsuarioComponent implements OnInit {
  }
 
  compareByOptionId2(idFist, idSecond) {
-  if(idSecond == null ){
-    return true;
+    if(idSecond == null ){
+      return true;
+    }
+    return idFist && idSecond && idFist == idSecond;
   }
-  return idFist && idSecond && idFist == idSecond;
-}
 
+  selectFiles(event){
+    this.selectedFile = event.target.files[0];
+    if(this.selectedFile != null)
+      this.activeBtnFile = true;
+  }
+
+  enviarTemplate(){
+    this.loadingComponent.isVisible = true;
+    console.log(this.info_user.subdominio);
+    this.usuarioService.multiples(this.selectedFile, this.info_user.subdominio.id_clavevalor)
+    .pipe(
+      finalize(()=> this.loadingComponent.isVisible = false) 
+    ).subscribe((r) => {
+      console.log(r);
+      this.list = r;
+      this.completado = true;
+    }, error => {
+      console.log(error);
+    });
+  }
 }
